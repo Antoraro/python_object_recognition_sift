@@ -4,17 +4,17 @@ import sys
 import cv2
 import time
 
-# Paquetes propios:
 import videoinput
 import utilscv
 import objrecogn
+import static as st
 
 
 class Detector:
 
     def __init__(self):
-        cv2.namedWindow('Detector')
-        cv2.namedWindow('Model')
+        cv2.namedWindow(st.MAIN_FRAME_NAME)
+        cv2.namedWindow(st.MODEL_FRAME_NAME)
 
         # Opening video source:
         if len(sys.argv) > 1:
@@ -23,9 +23,8 @@ class Detector:
             strsource = '0:rows=300:cols=400'  # Simple apertura de la cámara cero, sin escalado
         self.videoinput = videoinput.VideoInput(strsource)
         self.paused = False
-        self.methodstr = 'SIFT'
         self.orec = objrecogn.ObjectRecognitionHelper()
-        self.opencv_utils = utilscv.openCvUtils()
+        self.opencv_utils = utilscv.OpenCvUtils()
 
         # We load the database of the models
         self.directoryDataBase = self.orec.loadModelsFromDirectory()
@@ -36,7 +35,7 @@ class Detector:
         # We write informative text about the image
         self.opencv_utils.draw_str(imgout, (20, 20),
                          "Method {0}, {1} features found, desc. dim. = {2} ".
-                         format(self.methodstr, len(kp), dim))
+                         format(st.METHOD_NAME, len(kp), dim))
         self.opencv_utils.draw_str(imgout, (20, 40), "Time (ms): {0}".format(str(t1)))
         # Show results and check keys:
         cv2.imshow('Detector', imgout)

@@ -4,6 +4,7 @@ import cv2
 import os
 import numpy as np
 import utilscv
+import static as st
 
 # A Python class has been created, called ImageFeature
 # that will contain for each of the images in the database,
@@ -33,7 +34,7 @@ class ImageFeature(object):
 class ObjectRecognitionHelper:
 
     def __init__(self):
-        self.opencv_utils = utilscv.openCvUtils()
+        self.opencv_utils = utilscv.OpenCvUtils()
 
     # Functions responsible for calculating, for each of the calculation methods of features,
     # the features of each one of the images of the "models" directory
@@ -45,9 +46,9 @@ class ObjectRecognitionHelper:
         dataBase = []
         # The number of features has been limited to 250, so that the algorithm goes smoothly.
         sift = cv2.xfeatures2d.SIFT_create(nfeatures=250)
-        for imageFile in os.listdir("models"):
+        for imageFile in os.listdir(st.MODELS_DIRECTORY_NAME):
             # The image is loaded with the OpenCV
-            colorImage = cv2.imread("models/" + str(imageFile))
+            colorImage = cv2.imread(st.MODELS_DIRECTORY_NAME + "/" + str(imageFile))
             # We pass the image in grayscale
             currentImage = cv2.cvtColor(colorImage, cv2.COLOR_BGR2GRAY)
             # We make a resize of the image, so that the compared image is equal
@@ -179,9 +180,9 @@ class ObjectRecognitionHelper:
         dreal = (int(d[0]/d[2]), int(d[1]/d[2]))
         centroreal = (int(center[0]/center[2]), int(center[1]/center[2]))
 
-        # Se pinta el polígono y el nombre del fichero de la imagen en el centro del polígono
+        # The polygon and the name of the image file are painted in the center of the polygon
         points = np.array([areal, breal, creal, dreal], np.int32)
         cv2.polylines(imgout, np.int32([points]),1, (255,255,255), thickness=2)
         self.opencv_utils.draw_str(imgout, centroreal, bestImage.nameFile.upper())
         # The detected object is displayed in a separate window
-        cv2.imshow('Model', bestImage.imageBinary)
+        cv2.imshow(st.MODEL_FRAME_NAME, bestImage.imageBinary)
