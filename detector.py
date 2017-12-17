@@ -10,7 +10,7 @@ import utilscv
 import objrecogn
 
 
-class Detector():
+class Detector:
 
     def __init__(self):
         cv2.namedWindow('Detector')

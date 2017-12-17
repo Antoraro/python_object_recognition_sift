@@ -30,7 +30,7 @@ class ImageFeature(object):
         self.matchingDatabase = []
 
 
-class ObjectRecognitionHelper():
+class ObjectRecognitionHelper:
 
     def __init__(self):
         self.opencv_utils = utilscv.openCvUtils()
